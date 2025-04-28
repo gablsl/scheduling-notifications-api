@@ -5,10 +5,7 @@ import com.gabriel.schedulingapi.controller.dto.in.SchedulingRecordInput;
 import com.gabriel.schedulingapi.controller.dto.out.SchedulingRecordOutput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,5 +16,10 @@ public class SchedulingController {
     @PostMapping
     public ResponseEntity<SchedulingRecordOutput> create(@RequestBody SchedulingRecordInput schedulingRecordInput) {
         return ResponseEntity.ok(schedulingService.create(schedulingRecordInput));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SchedulingRecordOutput> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(schedulingService.findById(id));
     }
 }
