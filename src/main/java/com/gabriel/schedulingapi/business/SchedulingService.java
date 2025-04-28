@@ -3,6 +3,7 @@ package com.gabriel.schedulingapi.business;
 import com.gabriel.schedulingapi.business.mapper.ISchedulingMapper;
 import com.gabriel.schedulingapi.controller.dto.in.SchedulingRecordInput;
 import com.gabriel.schedulingapi.controller.dto.out.SchedulingRecordOutput;
+import com.gabriel.schedulingapi.infra.entities.Scheduling;
 import com.gabriel.schedulingapi.infra.exceptions.NotFoundException;
 import com.gabriel.schedulingapi.infra.repositories.SchedulingRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,12 @@ public class SchedulingService {
     public SchedulingRecordOutput findById(Long id) {
         return schedulingMapper.forDto(schedulingRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id not found")));
+    }
+
+    public void cancelScheduling(Long id) {
+        Scheduling scheduling = schedulingRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Id not found"));
+
+        schedulingRepository.save(schedulingMapper.forCancelledEntity(scheduling));
     }
 }
